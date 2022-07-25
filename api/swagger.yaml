@@ -20,7 +20,7 @@ info:
     нуй завдання самостійно.  Успіхів! "
   version: "1.0.0"
   title: "GSES2 BTC application"
-host: "gses2.app"
+host: "localhost:8080"
 basePath: "/api"
 tags:
 - name: "rate"
