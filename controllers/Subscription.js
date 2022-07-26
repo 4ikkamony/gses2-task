@@ -13,11 +13,13 @@ module.exports.sendEmails = function sendEmails (req, res, next) {
     });
 };
 
+
 module.exports.subscribe = function subscribe (req, res, next) {
+  var savePath = 'data/emails.json';
   var email = req.swagger.params['email'].value;
   Subscription.subscribe(email)
     .then(function (response) {
-      utils.writeJson(res, response);
+      utils.writeJson(res, response, undefined, savePath);
     })
     .catch(function (response) {
       utils.writeJson(res, response);
