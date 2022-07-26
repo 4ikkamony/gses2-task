@@ -21,8 +21,15 @@ exports.rate = function() {
         if (data[i].code === "UAH")
           break;
       }
+
         value = data[i].rate;
+
+      if ( typeof value !== 'undefined' && value )
+      {
         resolve(""+value);
+      } else {
+        reject("Invalid status value");
+      }
     });
   });
 }
