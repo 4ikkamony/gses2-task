@@ -72,6 +72,8 @@ paths:
       responses:
         "200":
           description: "E-mail додано"
+        "400":
+          description: "E-mail не валідний"
         "409":
           description: "Повертати, якщо e-mail вже є в базі даних (файловій)"
       x-swagger-router-controller: "Subscription"
