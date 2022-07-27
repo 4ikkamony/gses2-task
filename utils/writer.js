@@ -13,7 +13,6 @@ function writeToFile (filePath, data) {
 
       fs.writeFile(filePath, data+"\n", { flag: "a+" }, (err) => {
         if (err) throw err;
-        console.log('Data saved to ' + filePath);
       });
 }
 
@@ -56,9 +55,7 @@ var writeJson = exports.writeJson = function(response, arg1, arg2, savePath) {
   }
   if ( typeof savePath !== 'undefined' && savePath )
   {
-    if(code !== 400 || code !== 409) {
       writeToFile(savePath, payload);
-    }
   }
   response.writeHead(code, {'Content-Type': 'application/json'});
   response.end(payload);
