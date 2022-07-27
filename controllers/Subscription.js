@@ -2,6 +2,7 @@
 
 var utils = require('../utils/writer.js');
 var Subscription = require('../service/SubscriptionService');
+var reader = require('../utils/reader.js');
 
 module.exports.sendEmails = function sendEmails (req, res, next) {
   Subscription.sendEmails()
@@ -17,11 +18,18 @@ module.exports.sendEmails = function sendEmails (req, res, next) {
 module.exports.subscribe = function subscribe (req, res, next) {
   var savePath = 'data/emails.json';
   var email = req.swagger.params['email'].value;
-  Subscription.subscribe(email)
-    .then(function (response) {
-      utils.writeJson(res, response, undefined, savePath);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
+  reader.isUnique(email)
+      .then(function (response){
+        Subscription.subscribe(email)
+            .then(function (response) {
+              utils.writeJson(res, response, undefined, savePath);
+            })
+            .catch(function (response) {
+              utils.writeJson(res, response);
+            });
+
+      })
+      .catch(function (response){
+        utils.writeJson(res, response);
+      });
 };
