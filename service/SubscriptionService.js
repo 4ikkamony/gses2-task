@@ -1,5 +1,25 @@
 'use strict';
 
+var nodemailer = require('nodemailer');
+var reader = require("../utils/reader");
+const Rate = require("../service/RateService");
+const utils = require("../utils/writer.js");
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'compbanderloga@gmail.com',
+    pass: 'oggpuuqcgrbdjoxt'
+  }
+});
+
+var mailOptions = {
+  from: 'compbanderloga@gmail.com',
+  to: 'myfriend@yahoo.com',
+  subject: 'Sending Email using Node.js',
+  text: 'That was easy!'
+};
+
 
 /**
  * Відправити e-mail з поточним курсом на всі підписані електронні пошти.
@@ -9,7 +29,30 @@
  **/
 exports.sendEmails = function() {
   return new Promise(function(resolve, reject) {
-    resolve();
+
+    Rate.rate()
+        .then(function (response) {
+          mailOptions.text = "BTCtoUAH: "+ response;
+          reader.getEmails()
+              .then(function (response) {
+                for (var i = 0; i < response.length; i++) {
+                  mailOptions.to = response[i];
+                  transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                      reject(error);
+                    } else {
+                      resolve('Email sent: ' + info.response);
+                    }
+                  });
+                }
+              })
+              .catch(function(response) {
+                reject(response);
+              });
+        })
+        .catch(function (response) {
+          reject(response);
+        });
   });
 }
 
@@ -22,7 +65,6 @@ exports.sendEmails = function() {
  * no response value expected for this operation
  **/
 var emailRegex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
-
 
 function isEmailValid(email) {
   if (!email)
