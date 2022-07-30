@@ -1,11 +1,11 @@
 'use strict';
 
-var nodemailer = require('nodemailer');
-var reader = require("../utils/reader");
+const nodemailer = require('nodemailer');
+const reader = require("../utils/reader");
 const Rate = require("../service/RateService");
-const utils = require("../utils/writer.js");
 
-var transporter = nodemailer.createTransport({
+//nodemailer stuff
+let transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'compbanderloga@gmail.com',
@@ -13,11 +13,11 @@ var transporter = nodemailer.createTransport({
   }
 });
 
-var mailOptions = {
+let mailOptions = {
   from: 'compbanderloga@gmail.com',
-  to: 'myfriend@yahoo.com',
-  subject: 'Sending Email using Node.js',
-  text: 'That was easy!'
+  to: ' ',
+  subject: 'Exchange rate',
+  text: ' '
 };
 
 
@@ -35,7 +35,11 @@ exports.sendEmails = function() {
           mailOptions.text = "BTCtoUAH: "+ response;
           reader.getEmails()
               .then(function (response) {
-                for (var i = 0; i < response.length; i++) {
+                //send emails one by one
+                for (let i = 0; i < response.length; i++) {
+                  //if a string in emails array is empty or undefined, skip it
+                  if(typeof response[i] === "undefined" || response[i] === "")
+                    continue;
                   mailOptions.to = response[i];
                   transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
@@ -64,8 +68,16 @@ exports.sendEmails = function() {
  * email String Електронна адреса, яку потрібно підписати
  * no response value expected for this operation
  **/
-var emailRegex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
 
+//regular expression to check emails
+let emailRegex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
+
+/**
+ * See if email is formatted correctly
+ *
+ * @param email
+ * @returns {boolean}
+ */
 function isEmailValid(email) {
   if (!email)
     return false;
@@ -73,22 +85,28 @@ function isEmailValid(email) {
   if(email.length>254)
     return false;
 
-  var valid = emailRegex.test(email);
+  let valid = emailRegex.test(email);
   if(!valid)
     return false;
 
   // Further checking of some things regex can't handle
-  var parts = email.split("@");
+  let parts = email.split("@");
   if(parts[0].length>64)
     return false;
 
-  var domainParts = parts[1].split(".");
+  let domainParts = parts[1].split(".");
   if(domainParts.some(function(part) { return part.length>63; }))
     return false;
 
   return true;
 }
 
+/**
+ * Resolve the email if it's valid, reject otherwise
+ *
+ * @param email{string}
+ * @returns {Promise<unknown>}
+ */
 exports.subscribe = function(email) {
   return new Promise(function(resolve, reject) {
     //check if email is valid
