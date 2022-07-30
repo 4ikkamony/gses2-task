@@ -11,10 +11,15 @@
 
 [Image at DockerHub](https://hub.docker.com/repository/docker/4ikkamony/btc_app)
 
-Swagger-UI will be at [http://localhost:8080/docs/](http://localhost:8080/docs/)
+Swagger-UI will be availble at [http://localhost:8080/docs/](http://localhost:8080/docs/)
 
 ## Exchange Rate API
 [BitPay](https://bitpay.com/api/rates)
 
+## Some info on app
+* Exchange Rate API: [BitPay](https://bitpay.com/api/rates)
+* E-mails are send via nodemailer
+* Subscribed e-mails are stored in data/emails.json
 
+# Stay safe
 ![Ahah](https://github.com/4ikkamony/lab2/blob/main/unnamed1.png)
