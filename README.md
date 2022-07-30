@@ -24,5 +24,5 @@ Swagger-UI will be availble at [http://localhost:8080/docs/](http://localhost:80
 * E-mails are send via nodemailer
 * Subscribed e-mails are stored in data/emails.json
 
-# Stay safe
+# Stay safe!
 ![Ahah](https://github.com/4ikkamony/lab2/blob/main/unnamed1.png)
