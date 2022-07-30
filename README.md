@@ -8,3 +8,10 @@
 > docker build . -t 4ikkamony/btc_app
 ### run it
 > docker run -p 8080:8080 -d 4ikkamony/btc_app
+
+At [DockerHub](https://hub.docker.com/repository/docker/4ikkamony/btc_app)
+
+use
+
+## Rate API
+[BitPay](https://bitpay.com/api/rates)
