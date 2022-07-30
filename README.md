@@ -16,9 +16,6 @@
 
 Swagger-UI will be availble at [http://localhost:8080/docs/](http://localhost:8080/docs/)
 
-## Exchange Rate API
-[BitPay](https://bitpay.com/api/rates)
-
 ## Some info on app
 * Exchange Rate API: [BitPay](https://bitpay.com/api/rates)
 * E-mails are sent via nodemailer
