@@ -1,6 +1,9 @@
 # gses2-btc-application
 
-*an app to check BTC exchange rate to UAH and to subscribe emails to receive letters with updates on said rate*
+### An app that can:
+* Get BTC to UAH exchange rate from a public API
+* Create a mailing list(with provided e-mail addresses) and store it locally
+* Send out e-mails with the exchange rate when politely asked to
 
 ## Docker
 
